@@ -6,7 +6,7 @@ import os
 import argparse
 
 class BioSsimpleGenerator:
-    def __init__(self, data_dir="data", output_dir="output"):
+    def __init__(self, data_dir="data", output_dir="../Megatron_Experiments/datasets/biography"):
         """
         Initialize the generator and load all necessary data
         :param data_dir: Directory containing JSON files
@@ -69,10 +69,7 @@ class BioSsimpleGenerator:
         Constraints: 12 months × 28 days × 200 years
         """
         # Randomly select a month name
-        month = random.choice([
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ])
+        month = random.choice(self.months)
         
         # Generate day (1-28)
         day = random.randint(1, 28)
@@ -128,7 +125,7 @@ class BioSsimpleGenerator:
 
     def generate_dataset(self, n, batch_size=10000):
         """
-        Generate the complete dataset
+        Generate the complete dataset as JSON lines
         :param n: Number of biographies to generate
         :param batch_size: Number of biographies to write at once
         :return: Path to the generated file
@@ -136,13 +133,24 @@ class BioSsimpleGenerator:
         # Validate generation size
         self.validate_generation_size(n)
         
-        output_file = os.path.join(self.output_dir, f"bioSsimple_{n}.txt")
+        # 修改文件扩展名为.json
+        output_file = os.path.join(self.output_dir, f"bioSsimple_{n}.json")
         print(f"Generating {n} biographies...")
         
         with open(output_file, 'w', encoding='utf-8') as f:
             for i in tqdm(range(n), desc="Generating biographies"):
                 biography = self.generate_biography()
-                f.write(biography + '\n')
+                
+                # 创建JSON对象
+                json_obj = {
+                    "src": "sync",
+                    "text": biography,
+                    "type": "Eng",
+                    "id": str(i)  # 将id转换为字符串
+                }
+                
+                # 写入JSON行
+                f.write(json.dumps(json_obj) + '\n')
                 
                 if (i + 1) % batch_size == 0:
                     f.flush()
@@ -155,7 +163,7 @@ def main():
     Main function to handle command line arguments and run the generator
     """
     parser = argparse.ArgumentParser(description='Generate bioSsimple dataset')
-    parser.add_argument('--size', type=int, choices=[100, 50000, 100000, 200000, 500000, 1000000],
+    parser.add_argument('--size', type=int, choices=[20000, 50000, 100000, 200000, 500000, 1000000],
                       required=True, help='Size of the dataset to generate')
     parser.add_argument('--data_dir', type=str, default='data',
                       help='Directory containing input JSON files')
