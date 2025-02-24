@@ -155,7 +155,7 @@ def main():
     Main function to handle command line arguments and run the generator
     """
     parser = argparse.ArgumentParser(description='Generate bioSsimple dataset')
-    parser.add_argument('--size', type=int, choices=[50000, 100000, 200000, 500000, 1000000],
+    parser.add_argument('--size', type=int, choices=[100, 50000, 100000, 200000, 500000, 1000000],
                       required=True, help='Size of the dataset to generate')
     parser.add_argument('--data_dir', type=str, default='data',
                       help='Directory containing input JSON files')
