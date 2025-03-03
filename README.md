@@ -138,4 +138,3 @@ UTF-8 encoding
 Each biography follows a fixed 6-sentence template
 Dates formatted as "Month Day, Year"
 ```
-
