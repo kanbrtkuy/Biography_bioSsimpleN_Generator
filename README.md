@@ -25,9 +25,11 @@ The main purpose is to generate a large-scale biographical dataset with controll
 
 ## Example Biography Template
 ```text
-[FirstName] [MiddleName] [LastName] was born on [Month] [Day], [Year] in [BirthCity]. 
-[Pronoun] received guidance from faculty at [University] where [pronoun] studied [Major]. 
-[Pronoun] worked at [Employer] in [WorkCity].
+[FirstName] [MiddleName] [LastName] was born on [Month] [Day], [Year].
+[Pronoun] spent her early years in [BirthCity].
+[Pronoun] received mentorship and guidance from faculty members at [University].
+[Pronoun] completed [Pronoun] education with a focus on [Major].
+[Pronoun] had a professional role at [Employer]. [Pronoun] was employed in [WorkCity].
 ```
 
 ## Project Structure
@@ -46,7 +48,8 @@ Biography_bioSsimpleN_Generator/
 │   ├── middleNames.json   # Middle names dataset
 │   └── universitySource.json  # University source data
 ├── output/                 # Generated biography files
-├── dataGenerator.py   # Main generation script
+├── test_Data_Generator.py   # Main generation script for test data
+├── train_Data_Generator.py   # Main generation script for train data
 ├── extractNames.py    # First/middle/last/school name extraction utility
 ├── checkDuplicate.py  # Duplication checker
 └── README.md              # Project documentation
@@ -99,23 +102,23 @@ The extracted data is saved to:
 Generate 50,000 biographies:
 
 ```bash
-python generate_dataset.py --size 50000
+python [train|test]_Data_Generator.py --size 50000
 ```
 
 ### Advanced Usage
 Generate with custom directories:
 ```bash
-python generate_dataset.py --size 100000 --data_dir custom_data --output_dir custom_output
+python [train|test]_Data_Generator.py --size 100000 --data_dir custom_data --output_dir custom_output
 ```
 
 Set specific random seed:
 ```bash
-python generate_dataset.py --size 200000 --seed 123
+python [train|test]_Data_Generator.py --size 200000 --seed 123
 ```
 
 Modify batch size:
 ```bash
-python generate_dataset.py --size 500000 --batch_size 20000
+python [train|test]_Data_Generator.py --size 500000 --batch_size 20000
 ```
 
 ### Parameters
